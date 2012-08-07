@@ -20,12 +20,12 @@ end
 get '/' do	
 	festival_data =  Festival.find_dat("?festival=demofringe&key=fbqjdpGIYZQc5F9m")
 	shows = []
-	shows["meta"] = {:time => Time.now}
-	shows["data"] = []
+	shows[:meta] = {:time => Time.now}
+	shows[:data] = []
 	festival_data.each do |show|
 		start = Time.local(Time.now.year, Time.now.month, Time.now.day, rand(23), rand(3) * 15)
 		finish = Time.local(Time.now.year, Time.now.month, Time.now.day, start.hour, (rand(3) * 15))
-		shows["data"] << {:capacity => show["performance_space"]["capacity"], :lat => show["venue"]["position"]["lat"], :lng => show["venue"]["position"]["lon"], :start => start, :end => finish}
+		shows[:data] << {:capacity => show["performance_space"]["capacity"], :lat => show["venue"]["position"]["lat"], :lng => show["venue"]["position"]["lon"], :start => start, :end => finish}
 	end
 	shows.to_json
 end
