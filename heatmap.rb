@@ -27,7 +27,12 @@ get '/' do
 		finish = Time.local(Time.now.year, Time.now.month, Time.now.day, start.hour, (rand(3) * 15))
 		shows[:data] << {:capacity => 100, :lat => show["venue"]["position"]["lat"], :lng => show["venue"]["position"]["lon"], :start => start, :end => finish}
 	end
+<<<<<<< HEAD
 	"#{params[:callback]}(#{shows.to_json});"
 end
 
 #show["performance_space"]["capacity"]
+=======
+	"mycallback(#{shows.to_json});"
+end
+>>>>>>> parent of 1e74519... add callback param
