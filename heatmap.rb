@@ -1,6 +1,5 @@
 require 'rubygems'
 require 'json'
-#require 'net/http'
 require 'httparty'
 require 'sinatra'
 require 'base64'
