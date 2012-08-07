@@ -27,5 +27,5 @@ get '/' do
 		finish = Time.local(Time.now.year, Time.now.month, Time.now.day, start.hour, (rand(3) * 15))
 		shows[:data] << {:capacity => show["performance_space"]["capacity"], :lat => show["venue"]["position"]["lat"], :lng => show["venue"]["position"]["lon"], :start => start, :end => finish}
 	end
-	shows.to_json
+	"mycallback(#{shows.to_json});"
 end
