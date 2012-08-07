@@ -19,8 +19,8 @@ class Festival
 end
 get '/' do	
 	festival_data =  Festival.find_dat("?festival=demofringe&key=fbqjdpGIYZQc5F9m")
-	shows = []
-	shows[:meta] = {:time => Time.now}
+	shows = {}
+	shows[:meta] = { :time => Time.now }
 	shows[:data] = []
 	festival_data.each do |show|
 		start = Time.local(Time.now.year, Time.now.month, Time.now.day, rand(23), rand(3) * 15)
