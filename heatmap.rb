@@ -5,6 +5,7 @@ require 'sinatra'
 require 'base64'
 require 'openssl'
 require 'uri'
+require 'mongo'
 
 class Festival
 	include HTTParty
@@ -14,11 +15,13 @@ class Festival
 		query = "/events#{string}"
 		signature = OpenSSL::HMAC.hexdigest('sha1', secret, query).to_s
 		url_string = "#{base_url}#{query}&signature=#{signature}"
+		puts url_string
 		return JSON.parse(get(url_string, :headers => {'Accept' => 'application/json'}).body)
 	end
 end
 get '/' do	
 	festival_data =  Festival.find_dat("?festival=demofringe&key=fbqjdpGIYZQc5F9m")
+	#puts festival_data
 	shows = {}
 	shows[:meta] = { :time => Time.now }
 	shows[:data] = []
