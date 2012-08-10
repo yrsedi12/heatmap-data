@@ -6,7 +6,10 @@ require 'mongo'
 
 @conn = Mongo::Connection.new
 @db   = @conn['fringe']
-@coll = @db['performances']
+@coll = @db['performances2']
+@conn2 = Mongo::Connection.new
+@db2 = @conn2['fringe']
+@indiv = @db2['individual']
 
 g = File.open('/Users/craigsnowden/Library/Containers/com.apple.mail/Data/Library/Mail Downloads/festivals_edinburgh/ticketing-performanceSpaces.xml')
 performance_spaces = Nokogiri::XML(g)
@@ -44,6 +47,17 @@ Dir.foreach('/Users/craigsnowden/Library/Containers/com.apple.mail/Data/Library/
 		event_json[:venue][:lon] = venues.at_css("VENUES Venue [id = '#{event_json[:venue][:id]}'] Longitude").content
 		@coll.insert(event_json)
 		puts @coll.count
+		
+		event.css("Performance").each do |performance|
+			individual_json = {}
+			time = Time.parse("#{performance.at_css('Date').content} #{performance.at_css('Time').content}")
+			individual_json[:start] = time.to_s
+			individual_json[:end] = (time + (performance.at_css("Duration").content.to_i * 60)).to_s
+			individual_json[:lat] = event_json[:venue][:lat]
+			individual_json[:lon] = event_json[:venue][:lon]
+			individual_json[:capacity] = event_json[:performance_space][:capacity]
+			@indiv.insert(individual_json)
+		end
 	end
 end
 
