@@ -22,7 +22,12 @@ class Festival
 	end
 	
 	def self.days_data(date)
-		@conn = Mongo::Connection.new
+		services = JSON.parse(ENV['VCAP_SERVICES'])
+		mongo_key = services.keys.select { |svc| svc =~ /mongo/i }.first
+		mongo = services[mongo_key].first['credentials']
+		mongo_conn = {:host => mongo['hostname'], :port => mongo['port'], :username => mongo['user'], :password => mongo['password']}
+		
+		@conn = Mongo::Connection.new(mongo['hostname'], mongo['port']).db(mongo['db']).authenticate(mongo['user'], mongo['password'])
 		@db   = @conn['fringe']
 		@coll = @db['individual']
 		time = Time.now
