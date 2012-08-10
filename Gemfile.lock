@@ -1,8 +1,11 @@
 GEM
   specs:
+    bson (1.6.4)
     httparty (0.8.3)
       multi_json (~> 1.0)
       multi_xml
+    mongo (1.6.4)
+      bson (~> 1.6.4)
     multi_json (1.3.6)
     multi_xml (0.5.1)
     rack (1.4.1)
@@ -19,4 +22,5 @@ PLATFORMS
 
 DEPENDENCIES
   httparty
+  mongo
   sinatra
